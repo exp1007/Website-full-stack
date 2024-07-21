@@ -15,7 +15,8 @@ function App() {
   React.useEffect(() => {
     fetch("/students")
       .then((res) => res.json())
-      .then((students) => setStudents(students.message));
+      .then((students) => setStudents(students))
+      .catch((error) => console.error("Error fetching students:", error));
   }, []);
 
   return (
@@ -23,7 +24,9 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>{!data ? "Loading..." : data}</p>
-        <p>{!students ? "Loading..." : students}</p>
+        {!students
+            ? "Loading..."
+            : students.map((student) => <div key={student.id}>{student.id}</div>)}
       </header>
     </div>
   );
