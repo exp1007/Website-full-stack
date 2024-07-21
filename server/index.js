@@ -27,6 +27,7 @@ const createKeyspace = async () => {
 // Function to reconfigure client with the keyspace
 const configureClientWithKeyspace = () => {
   client.keyspace = "school";
+  console.log("Keyspace is %s", client.keyspace);
 };
 
 app.get("/api", (req, res) => {
@@ -48,15 +49,12 @@ const createTable = async () => {
 
 // Get all students
 app.get("/students", async (req, res) => {
-  const query = "SELECT * FROM students";
+  const query = "SELECT id FROM school.students WHERE id=3a87d087-a13e-48af-ae5f-a4ff024c2433";
   const result = await client.execute(query);
-  console.log(result);
-  res.json(result.rows);
+  const ids = result.rows.map(row => row.id.toString()).sort();
+  console.log(ids);
+  res.json(ids);
 });
-
-// app.get('/students', (req, res) => {
-//   res.json({ message: ["Student1", "Student2", "Student3"] });
-// });
 
 // Start the server, create the keyspace, configure the client, and create the table
 app.listen(PORT, async () => {
@@ -69,7 +67,3 @@ app.listen(PORT, async () => {
     console.error("Error starting the server:", err);
   }
 });
-
-// app.listen(PORT, () => {
-//   console.log(`Server listening on ${PORT}`);
-// });

@@ -15,7 +15,8 @@ function App() {
   React.useEffect(() => {
     fetch("/students")
       .then((res) => res.json())
-      .then((students) => setStudents(students.message));
+      .then((students) => setStudents(students))
+      .catch((error) => console.error("Error fetching students:", error));
   }, []);
 
   return (
