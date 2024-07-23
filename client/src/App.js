@@ -4,29 +4,27 @@ import "./App.css";
 
 function App() {
   const [data, setData] = React.useState(null);
-  const [students, setStudents] = React.useState(null);
+  const [dbData, setRemoteData] = React.useState(null);
 
   React.useEffect(() => {
-    fetch("/api")
+    fetch("/test")
       .then((res) => res.json())
       .then((data) => setData(data.message));
   }, []);
 
   React.useEffect(() => {
-    fetch("/students")
+    fetch("/test/db")
       .then((res) => res.json())
-      .then((students) => setStudents(students))
-      .catch((error) => console.error("Error fetching students:", error));
+      .then((data) => setRemoteData(data));
   }, []);
+
 
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>{!data ? "Loading..." : data}</p>
-        {!students
-            ? "Loading..."
-            : students.map((student) => <div key={student.id}>{student.id}</div>)}
+        <p>{!dbData ? "Loading..." : dbData}</p>
       </header>
     </div>
   );
