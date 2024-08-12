@@ -12,7 +12,8 @@ testRouter.get("/", (req, res) => {
 testRouter.get("/db", async (req, res) => {
   try {
     const postsList = await posts.findAll();
-    res.status(200).json(postsList);
+    const title = postsList.length > 0 ? postsList[0].title : null;
+    res.status(200).json(title);
   } catch (error) {
     console.log('ERROR:', error);
     res.status(500).json({ error: error.message });

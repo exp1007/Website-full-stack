@@ -1,30 +1,24 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 
+import Home from "./pages/Home";
+import Tests from "./pages/Tests";
+//import CreatePost from "./pages/new";
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+
 function App() {
-  const [data, setData] = React.useState(null);
-  const [dbData, setRemoteData] = React.useState(null);
-
-  React.useEffect(() => {
-    fetch("/test")
-      .then((res) => res.json())
-      .then((data) => setData(data.message));
-  }, []);
-
-  React.useEffect(() => {
-    fetch("/test/db")
-      .then((res) => res.json())
-      .then((data) => setRemoteData(data));
-  }, []);
-
-
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>{!data ? "Loading..." : data}</p>
-        <p>{!dbData ? "Loading..." : dbData}</p>
+      <Router>
+        <Link to="/home"> Home Page</Link>
+        <Link to="/tests"> Tests Page</Link>
+        <Routes>
+          <Route path="/home" element={<Home />} />
+          <Route path="/tests" element={<Tests />} />
+        </Routes>
+      </Router>
+
       </header>
     </div>
   );
