@@ -1,11 +1,11 @@
 const express = require("express")
 const usersRouter = express.Router()
 
-const { users } = require('../models');
+const { posts } = require('../databases/postgres/postgres');
 
 usersRouter.use(logger)
 
-usersRouter.post("/new", async (req, res) => {
+usersRouter.post("/register", async (req, res) => {
 try {
     const content = req.body;
     await users.create(content);

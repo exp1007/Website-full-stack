@@ -1,7 +1,8 @@
 const express = require("express")
 const testRouter = express.Router()
 
-const { posts } = require('../models');
+const { posts } = require('../databases/postgres/postgres');
+const mongoConnection = require('../databases/mongo');
 
 testRouter.use(logger)
 
@@ -11,9 +12,16 @@ testRouter.get("/", (req, res) => {
 
 testRouter.get("/db", async (req, res) => {
   try {
-    const postsList = await posts.findAll();
-    const title = postsList.length > 0 ? postsList[0].title : null;
-    res.status(200).json(title);
+    // const postsList = await posts.findAll();
+    // res.status(200).json(postsList);
+    const mongoDb = await mongoConnection();
+
+    let collection = await mongoDb.collection("posts");
+    let results = await collection.findOne({});
+
+    console.log(results.content);
+  
+      res.status(200).json(results.content);
   } catch (error) {
     console.log('ERROR:', error);
     res.status(500).json({ error: error.message });

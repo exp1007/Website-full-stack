@@ -2,7 +2,7 @@ import React from "react";
 
 function Home() {
     const [data, setData] = React.useState(null);
-    const [dbData, setRemoteData] = React.useState(null);
+    const [dbData, setDatabaseData] = React.useState(null);
 
   React.useEffect(() => {
     fetch("/test")
@@ -13,8 +13,9 @@ function Home() {
   React.useEffect(() => {
     fetch("/test/db")
       .then((res) => res.json())
-      .then((data) => setRemoteData(data));
+      .then((data) => setDatabaseData(data));
   }, []);
+
   return (
     <div>
         <p>{!data ? "Loading..." : data}</p>

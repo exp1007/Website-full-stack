@@ -1,25 +1,34 @@
 const express = require("express")
 const postsRouter = express.Router()
 
-const { posts } = require('../models');
+const mongoConnection = require('../databases/mongo');
 
 postsRouter.use(logger)
 
 postsRouter.post("/new", async (req, res) => {
-try {
-    const content = req.body;
-    await posts.create(content);
-    res.json({message: "Post successfully added!"});
-} catch (error) {
+  try {
+    const mongoDb = await mongoConnection();
+
+    let collection = await mongoDb.collection("posts");
+    let results = await collection.insertOne(req.body);
+  
+      res.status(200).json(results);
+  } catch (error) {
     console.log('ERROR:', error);
     res.status(500).json({ error: error.message });
-}
+  }
 });
 
 postsRouter.get("/", async (req, res) => {
   try {
-    const postsList = await posts.findAll();
-    res.status(200).json(postsList);
+    const mongoDb = await mongoConnection();
+
+    let collection = await mongoDb.collection("posts");
+    let results = await collection.find({})
+      .limit(50)
+      .toArray();
+  
+      res.status(200).json(results);
   } catch (error) {
     console.log('ERROR:', error);
     res.status(500).json({ error: error.message });
