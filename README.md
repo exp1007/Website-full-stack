@@ -1,4 +1,4 @@
-# Website created for the purpose of starting a social media platform, this is unmaintained and unfinished.
+# This is a base, ideal for new projects.
 
 Frontend: React
 
